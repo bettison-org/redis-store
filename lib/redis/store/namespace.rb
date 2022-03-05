@@ -194,7 +194,9 @@ class Redis
 
         def interpolate(key)
           return key unless namespace_str
-          key.match(namespace_regexp) ? key : "#{namespace_str}:#{key}"
+          hash = key.public_id unless key.is_a? String
+          hash ||= key
+          hash.match(namespace_regexp) ? hash : "#{namespace_str}:#{hash}"
         end
 
         def strip_namespace(key)
